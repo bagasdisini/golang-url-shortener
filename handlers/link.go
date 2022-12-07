@@ -61,7 +61,7 @@ func (h *handler) GetLongURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, _ := h.LinkRepository.GetLongURL(shortURL.ShortURL[22:])
+	data, _ := h.LinkRepository.GetLink(shortURL.ShortURL[22:])
 
 	linkData := models.Link{
 		ID:       data.ID,
@@ -84,6 +84,14 @@ func (h *handler) CreateLink(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&longURL); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		response := dto.ErrorResult{StatusCode: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	_, err := h.LinkRepository.GetLongURLCheck(longURL.LongURL)
+	if err == nil {
+		w.WriteHeader(http.StatusBadRequest)
+		response := dto.ErrorResult{StatusCode: http.StatusBadRequest, Message: "URL already shorten! If you don't remember it, please use get original URL service!"}
 		json.NewEncoder(w).Encode(response)
 		return
 	}

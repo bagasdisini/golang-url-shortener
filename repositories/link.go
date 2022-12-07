@@ -8,7 +8,7 @@ import (
 
 type LinkRepository interface {
 	GetLink(ShortURL string) (models.Link, error)
-	GetLongURL(ShortURL string) (models.Link, error)
+	GetLongURLCheck(ShortURL string) (models.Link, error)
 	CreateLink(link models.Link) (models.Link, error)
 }
 
@@ -23,9 +23,9 @@ func (r *repository) GetLink(ShortURL string) (models.Link, error) {
 	return link, err
 }
 
-func (r *repository) GetLongURL(ShortURL string) (models.Link, error) {
+func (r *repository) GetLongURLCheck(ShortURL string) (models.Link, error) {
 	var link models.Link
-	err := r.db.First(&link, "short_url=?", ShortURL).Error
+	err := r.db.First(&link, "long_url=?", ShortURL).Error
 
 	return link, err
 }
