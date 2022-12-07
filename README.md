@@ -7,7 +7,7 @@ Simple and small URL shortener project using [Go](https://go.dev/) and [MySQL](h
 Clone this repository to your local storage.
 
 ```bash
-git clone 
+git clone https://github.com/bagasdisini/golang-url-shortener
 ```
 
 Make sure your MySQL database already started and create table `dblink` on it. If you want to use another database or just simply want to change table name, edit `pkg/mysql/mysql.go`.
